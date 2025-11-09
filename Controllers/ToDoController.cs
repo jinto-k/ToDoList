@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Data;
 using ToDoList.Interfaces;
@@ -33,5 +33,22 @@ namespace ToDoList.Controllers
         {
             return Ok(await _service.SaveToDo(toDo));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteToDo(int id)
+        {
+            var ok = await _service.DeleteToDo(id);
+            if (!ok) return NotFound();
+            return NoContent();
+        }
+
+        [HttpPatch("{id}/completed")]
+        public async Task<IActionResult> SetCompleted(int id, [FromQuery] bool isCompleted)
+        {
+            var ok = await _service.SetCompleted(id, isCompleted);
+            if (!ok) return NotFound();
+            return NoContent();
+        }
     }
 }
+

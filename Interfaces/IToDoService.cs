@@ -1,4 +1,4 @@
-﻿using ToDoList.Models;
+using ToDoList.Models;
 
 namespace ToDoList.Interfaces
 {
@@ -7,5 +7,7 @@ namespace ToDoList.Interfaces
         Task<IEnumerable<ToDo>> GetAllToDos();
         Task<ToDo> GetToDoById(int id);
         Task<int> SaveToDo(ToDo toDo);
+        Task<bool> DeleteToDo(int id);
+        Task<bool> SetCompleted(int id, bool isCompleted);
     }
 }

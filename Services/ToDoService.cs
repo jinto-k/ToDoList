@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using ToDoList.Data;
 using ToDoList.Interfaces;
@@ -35,6 +35,7 @@ namespace ToDoList.Services
                     toEdit.Name = toDo.Name;
                     toEdit.Description = toDo.Description;
                     toEdit.DueDate = toDo.DueDate;
+                    toEdit.IsCompleted = toDo.IsCompleted;
                     return await _context.SaveChangesAsync();
                 }
             }
@@ -42,5 +43,24 @@ namespace ToDoList.Services
             var value = await _context.SaveChangesAsync();
             return value;
         }
+
+        public async Task<bool> DeleteToDo(int id)
+        {
+            var toDelete = await _context.ToDos.FindAsync(id);
+            if (toDelete == null) return false;
+            _context.ToDos.Remove(toDelete);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> SetCompleted(int id, bool isCompleted)
+        {
+            var item = await _context.ToDos.FindAsync(id);
+            if (item == null) return false;
+            item.IsCompleted = isCompleted;
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
+
